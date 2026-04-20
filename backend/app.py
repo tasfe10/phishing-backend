@@ -18,6 +18,15 @@ URL_MODEL_PATH = os.path.join(BASE_DIR, "models", "url_model.pkl")
 URL_FEATURES_PATH = os.path.join(BASE_DIR, "models", "url_feature_names.pkl")
 
 # ===== REQUIRED FOR PICKLE LOADING =====
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+TEXT_MODEL_PATH = os.path.join(BASE_DIR, "models", "phishing_model.pkl")
+TEXT_VECTORIZER_PATH = os.path.join(BASE_DIR, "models", "vectorizer.pkl")
+URL_MODEL_PATH = os.path.join(BASE_DIR, "models", "url_model.pkl")
+URL_FEATURES_PATH = os.path.join(BASE_DIR, "models", "url_feature_names.pkl")
+
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r"http\S+|www\S+", " ", text)
