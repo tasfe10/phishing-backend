@@ -39,6 +39,25 @@ def custom_tokenizer(text):
     return re.findall(r'[\u0980-\u09FF]+|[a-zA-Z]+|\d+', text)
 
 # ===== LOAD MODELS =====
+print("===== DEBUG START =====")
+
+import os
+print("BASE_DIR:", BASE_DIR)
+
+print("TEXT_MODEL_PATH:", TEXT_MODEL_PATH)
+print("Exists:", os.path.exists(TEXT_MODEL_PATH))
+
+print("TEXT_VECTORIZER_PATH:", TEXT_VECTORIZER_PATH)
+print("Exists:", os.path.exists(TEXT_VECTORIZER_PATH))
+
+print("URL_MODEL_PATH:", URL_MODEL_PATH)
+print("Exists:", os.path.exists(URL_MODEL_PATH))
+
+print("URL_FEATURES_PATH:", URL_FEATURES_PATH)
+print("Exists:", os.path.exists(URL_FEATURES_PATH))
+
+print("===== DEBUG END =====")
+
 with open(TEXT_MODEL_PATH, "rb") as f:
     text_model = pickle.load(f)
 
