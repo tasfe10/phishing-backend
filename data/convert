@@ -1,0 +1,11 @@
+import pandas as pd
+
+# Correct path
+df = pd.read_csv("data/SMSSpamCollection", sep='\t', header=None)
+
+df.columns = ["label", "text"]
+df["label"] = df["label"].map({"ham": 0, "spam": 1})
+
+df.to_csv("data/sms_dataset.csv", index=False)
+
+print("✅ Converted to CSV successfully!")
