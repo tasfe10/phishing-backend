@@ -18,15 +18,6 @@ URL_MODEL_PATH = os.path.join(BASE_DIR, "models", "url_model.pkl")
 URL_FEATURES_PATH = os.path.join(BASE_DIR, "models", "url_feature_names.pkl")
 
 # ===== REQUIRED FOR PICKLE LOADING =====
-import os
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-TEXT_MODEL_PATH = os.path.join(BASE_DIR, "models", "phishing_model.pkl")
-TEXT_VECTORIZER_PATH = os.path.join(BASE_DIR, "models", "vectorizer.pkl")
-URL_MODEL_PATH = os.path.join(BASE_DIR, "models", "url_model.pkl")
-URL_FEATURES_PATH = os.path.join(BASE_DIR, "models", "url_feature_names.pkl")
-
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r"http\S+|www\S+", " ", text)
@@ -38,37 +29,44 @@ def custom_tokenizer(text):
     text = clean_text(text)
     return re.findall(r'[\u0980-\u09FF]+|[a-zA-Z]+|\d+', text)
 
-# ===== LOAD MODELS =====
+# ===== DEBUG + LOAD MODELS =====
 print("===== DEBUG START =====")
-
-import os
 print("BASE_DIR:", BASE_DIR)
 
 print("TEXT_MODEL_PATH:", TEXT_MODEL_PATH)
-print("Exists:", os.path.exists(TEXT_MODEL_PATH))
+print("TEXT_MODEL exists:", os.path.exists(TEXT_MODEL_PATH))
 
 print("TEXT_VECTORIZER_PATH:", TEXT_VECTORIZER_PATH)
-print("Exists:", os.path.exists(TEXT_VECTORIZER_PATH))
+print("TEXT_VECTORIZER exists:", os.path.exists(TEXT_VECTORIZER_PATH))
 
 print("URL_MODEL_PATH:", URL_MODEL_PATH)
-print("Exists:", os.path.exists(URL_MODEL_PATH))
+print("URL_MODEL exists:", os.path.exists(URL_MODEL_PATH))
 
 print("URL_FEATURES_PATH:", URL_FEATURES_PATH)
-print("Exists:", os.path.exists(URL_FEATURES_PATH))
+print("URL_FEATURES exists:", os.path.exists(URL_FEATURES_PATH))
+
+try:
+    with open(TEXT_MODEL_PATH, "rb") as f:
+        text_model = pickle.load(f)
+    print("Loaded text_model successfully")
+
+    with open(TEXT_VECTORIZER_PATH, "rb") as f:
+        text_vectorizer = pickle.load(f)
+    print("Loaded text_vectorizer successfully")
+
+    with open(URL_MODEL_PATH, "rb") as f:
+        url_model = pickle.load(f)
+    print("Loaded url_model successfully")
+
+    with open(URL_FEATURES_PATH, "rb") as f:
+        url_feature_names = pickle.load(f)
+    print("Loaded url_feature_names successfully")
+
+except Exception as e:
+    print("MODEL LOADING ERROR:", repr(e))
+    raise
 
 print("===== DEBUG END =====")
-
-with open(TEXT_MODEL_PATH, "rb") as f:
-    text_model = pickle.load(f)
-
-with open(TEXT_VECTORIZER_PATH, "rb") as f:
-    text_vectorizer = pickle.load(f)
-
-with open(URL_MODEL_PATH, "rb") as f:
-    url_model = pickle.load(f)
-
-with open(URL_FEATURES_PATH, "rb") as f:
-    url_feature_names = pickle.load(f)
 
 # ===== TEXT MODEL PREDICTION =====
 def predict_text_model(text):
