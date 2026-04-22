@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import pickle
 import pandas as pd
 from flask import Flask, request, jsonify, send_from_directory
@@ -28,6 +29,10 @@ def clean_text(text):
 def custom_tokenizer(text):
     text = clean_text(text)
     return re.findall(r'[\u0980-\u09FF]+|[a-zA-Z]+|\d+', text)
+
+# ===== FIX FOR PICKLE LOADING ON RENDER / GUNICORN =====
+sys.modules['__main__'].custom_tokenizer = custom_tokenizer
+sys.modules['__main__'].clean_text = clean_text
 
 # ===== DEBUG + LOAD MODELS =====
 print("===== DEBUG START =====")
